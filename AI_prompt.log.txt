@@ -1,0 +1,180 @@
+hàm assertEquals(expected, actual, testName) để làm gì
+
+Hàm assertEquals(expected, actual, testName) thường được dùng trong kiểm thử (testing) để kiểm tra xem:
+
+Giá trị thực tế (actual)
+có đúng bằng giá trị mong đợi (expected)
+hay không.
+
+Nếu giống nhau → test PASS
+Nếu khác nhau → test FAIL
+
+Ý nghĩa từng tham số
+assertEquals(expected, actual, testName)
+Tham số	Ý nghĩa
+expected	Kết quả mong đợi
+actual	Kết quả thực tế từ chương trình
+testName	Tên bài test để dễ đọc
+Ví dụ đơn giản
+function assertEquals(expected, actual, testName) {
+    if (expected === actual) {
+        console.log(`✅ PASS: ${testName}`);
+    } else {
+        console.log(`❌ FAIL: ${testName}`);
+        console.log(`Expected: ${expected}`);
+        console.log(`Actual: ${actual}`);
+    }
+}
+Cách sử dụng
+function cong(a, b) {
+    return a + b;
+}
+
+assertEquals(5, cong(2, 3), "Test cộng 2 + 3");
+Kết quả:
+✅ PASS: Test cộng 2 + 3
+Ví dụ FAIL
+assertEquals(10, cong(2, 3), "Test sai");
+Kết quả:
+❌ FAIL: Test sai
+Expected: 10
+Actual: 5
+Mục đích của assertEquals
+
+Hàm này giúp:
+
+Kiểm tra code tự động
+Phát hiện lỗi sớm
+Test nhiều trường hợp nhanh chóng
+Đảm bảo code sau khi sửa vẫn hoạt động đúng
+Đây là tư duy của Unit Test
+
+Ví dụ:
+
+assertEquals(0, tinhTien(0), "Tiền của giỏ hàng rỗng");
+assertEquals(100, tinhTien(1), "1 sản phẩm");
+assertEquals(200, tinhTien(2), "2 sản phẩm");
+
+Mỗi dòng là một bài kiểm tra độc lập.
+
+So sánh với console.log
+Không dùng assert
+console.log(cong(2, 3));
+
+Bạn phải tự nhìn xem đúng hay sai.
+
+Dùng assert
+assertEquals(5, cong(2, 3), "Test cộng");
+
+Chương trình tự kết luận PASS hoặc FAIL.
+
+Viết các hàm Unit Test (VD: testVIPExact500k()) gọi hàm calculateRewardPoints và ném ra lỗi (throw error) hoặc in ra "FAILED" nếu kết quả thực tế không giống kỳ vọng. là như thế nào 
+
+
+Ý của yêu cầu này là:
+
+Bạn cần viết các hàm kiểm thử (Unit Test) để kiểm tra xem hàm calculateRewardPoints() có hoạt động đúng không.
+
+Nếu:
+
+kết quả thực tế ≠ kết quả mong đợi
+→ thì phải:
+throw Error(...)
+hoặc
+in "FAILED"
+
+Ví dụ giả sử có hàm:
+
+function calculateRewardPoints(amount, isVIP) {
+    if (isVIP && amount >= 500000) {
+        return 100;
+    }
+
+    return 50;
+}
+Ví dụ Unit Test
+Test khách VIP đúng 500k
+function testVIPExact500k() {
+    const expected = 100;
+
+    const actual = calculateRewardPoints(500000, true);
+
+    if (expected !== actual) {
+        throw new Error("FAILED: VIP 500k phải nhận 100 điểm");
+    }
+
+    console.log("PASSED");
+}
+Giải thích
+Bước 1: Chuẩn bị kết quả mong đợi
+const expected = 100;
+
+Ta kỳ vọng khách VIP mua đúng 500k sẽ được 100 điểm.
+
+Bước 2: Gọi hàm cần test
+const actual = calculateRewardPoints(500000, true);
+
+Lấy kết quả thực tế từ chương trình.
+
+Bước 3: So sánh
+if (expected !== actual)
+
+Nếu khác nhau → test thất bại.
+
+Bước 4: Báo lỗi
+throw new Error("FAILED");
+
+Hoặc:
+
+console.log("FAILED");
+Ví dụ nhiều test
+function testNormalCustomer() {
+    const expected = 50;
+    const actual = calculateRewardPoints(100000, false);
+
+    if (expected !== actual) {
+        throw new Error("FAILED: khách thường");
+    }
+
+    console.log("PASSED");
+}
+
+function testVIPExact500k() {
+    const expected = 100;
+    const actual = calculateRewardPoints(500000, true);
+
+    if (expected !== actual) {
+        throw new Error("FAILED: VIP 500k");
+    }
+
+    console.log("PASSED");
+}
+Chạy test
+testNormalCustomer();
+testVIPExact500k();
+Tại sao phải viết Unit Test?
+
+Vì nó giúp:
+
+kiểm tra logic tự động
+phát hiện bug nhanh
+sửa code không sợ làm hỏng chức năng cũ
+chuyên nghiệp hơn khi lập trình
+throw Error khác gì console.log("FAILED")?
+console.log
+
+Chỉ in chữ ra màn hình:
+
+console.log("FAILED");
+
+Chương trình vẫn chạy tiếp.
+
+throw Error
+throw new Error("FAILED");
+báo lỗi thật
+dừng chương trình
+thường dùng trong testing chuyên nghiệp hơn
+
+Ví dụ:
+
+Error: FAILED: VIP 500k
